@@ -18,6 +18,17 @@ services:
     networks:
       - corp
     restart: on-failure
+  
+  db:
+    container_name: db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: nest-next-nx-db
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql-data:/var/lib/mysql
 
   front:
     container_name: front
@@ -34,3 +45,6 @@ services:
     networks:
       - corp
     restart: on-failure
+
+volumes:
+  mysql-data:
