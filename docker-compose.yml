@@ -1,0 +1,36 @@
+networks:
+  corp:
+    driver: bridge
+
+services:
+  api:
+    container_name: api
+    build:
+      context: ./
+      cache_from:
+        - my-base-image:nx-base
+      dockerfile: ./apps/api/Dockerfile
+    image: api:nx-dev
+    ports:
+      - 3000:3000
+    environment:
+      PORT: 3000
+    networks:
+      - corp
+    restart: on-failure
+
+  front:
+    container_name: front
+    build:
+      context: ./
+      cache_from:
+        - nginx:1.19.2
+      dockerfile: ./apps/front/Dockerfile
+    image: front:nx-dev
+    ports:
+      - 4000:80
+    environment:
+      PORT: 4000
+    networks:
+      - corp
+    restart: on-failure
